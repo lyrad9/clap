@@ -4,6 +4,7 @@ import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "rea
 import type { Chapter, Comment, Item, Track } from "../types";
 import { clamp, fmtTime, trackColor } from "../util";
 import { fetchPeaks } from "../api";
+import { Icon } from "../Icon";
 
 const LABEL_W = 150;
 const TICKS = [0.1, 0.2, 0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 1200];
@@ -116,10 +117,10 @@ export function Timeline(p: TimelineProps) {
         <button className="small" onClick={() => zoomBy(1 / 1.6)}>−</button>
         <button className="small" onClick={() => zoomBy(1.6)}>+</button>
         <button className="small" onClick={() => setPps(null)}>Fit</button>
-        <span className="muted">⌘/Ctrl + wheel to zoom · drag on the ruler = range</span>
+        <span className="muted hint">⌘/Ctrl + wheel to zoom · drag on the ruler = range</span>
         {p.range && (
           <span className="range-chip">range {fmtTime(p.range[0])} → {fmtTime(p.range[1])}
-            <button className="link" onClick={() => p.onRange(null)}>×</button></span>
+            <button className="link" onClick={() => p.onRange(null)} aria-label="Clear the range"><Icon name="close" size={12} /></button></span>
         )}
       </div>
       <div className="tl-scroll" ref={scroller} onScroll={(e) => setScrollLeft(e.currentTarget.scrollLeft)}>

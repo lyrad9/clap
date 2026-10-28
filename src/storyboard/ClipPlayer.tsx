@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Comment } from "../types";
 import { fmtTime, frameOf, timeOfFrame } from "../util";
 import { FitBox } from "../FitBox";
+import { Icon } from "../Icon";
 
 const PAD = 0.4; // seconds shown before and after the passage
 
@@ -74,9 +75,9 @@ export function ClipPlayer({ src, start, end, w, h, fps, comments, activeId, vid
         {children}
       </FitBox>
       <div className="clip-bar" onClick={(e) => e.stopPropagation()}>
-        <button className="primary small" onClick={toggle}>{playing ? "❚❚" : "▶"}</button>
-        <button className="small" onClick={() => step(-1)} title="previous frame (,)">◀︎|</button>
-        <button className="small" onClick={() => step(1)} title="next frame (.)">|▶︎</button>
+        <button className="primary small play" onClick={toggle} aria-label={playing ? "Pause" : "Play"}><Icon name={playing ? "pause" : "play"} size={14} /></button>
+        <button className="small icon-only" onClick={() => step(-1)} title="previous frame (,)" aria-label="previous frame"><Icon name="prevFrame" size={14} /></button>
+        <button className="small icon-only" onClick={() => step(1)} title="next frame (.)" aria-label="next frame"><Icon name="nextFrame" size={14} /></button>
         <input type="range" min={a} max={b} step={1 / fps} value={Math.min(b, Math.max(a, t))}
           onChange={(e) => { const v = videoRef.current!; v.pause(); v.currentTime = +e.target.value; }} />
         <span className="mono">{fmtTime(t)}</span>

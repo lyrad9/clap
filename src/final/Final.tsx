@@ -8,6 +8,7 @@ import { uploadShot } from "../api";
 import { HtmlLayer } from "./layer";
 import { hitTest, targetOf, type Candidate } from "./hit";
 import { Timeline } from "./Timeline";
+import { Icon } from "../Icon";
 
 interface Selection { target: Target; rect?: Rect | null; cands?: Candidate[]; idx?: number }
 interface Draft { target: Target; point?: { x: number; y: number }; rect?: Rect | null }
@@ -264,11 +265,11 @@ export function Final({ m, review, update }: { m: Manifest; review: Review; upda
 
       <aside className="side">
         <div className="transport">
-          <button onClick={toggle} className="primary">{playing ? "❚❚" : "▶"}</button>
-          <button onClick={() => stepFrames(-1)} title="previous frame (,)">◀︎|</button>
-          <button onClick={() => stepFrames(1)} title="next frame (.)">|▶︎</button>
-          <span className="mono time">{fmtTime(t)} / {fmtTime(duration)}</span>
-          <span className="mono muted">f{frameOf(t, fps)}</span>
+          <button onClick={toggle} className="primary play" aria-label={playing ? "Pause" : "Play"}><Icon name={playing ? "pause" : "play"} /></button>
+          <button className="icon-only" onClick={() => stepFrames(-1)} title="previous frame (,)" aria-label="previous frame"><Icon name="prevFrame" /></button>
+          <button className="icon-only" onClick={() => stepFrames(1)} title="next frame (.)" aria-label="next frame"><Icon name="nextFrame" /></button>
+          <span className="timecode"><span className="mono time">{fmtTime(t)}<span className="of"> / {fmtTime(duration)}</span></span>
+            <span className="mono frame-no">f{frameOf(t, fps)}</span></span>
           <div className="seg">
             {[0.5, 1, 1.5, 2].map((r) => <button key={r} className={rate === r ? "on" : ""} onClick={() => setPlaybackRate(r)}>{r}×</button>)}
           </div>
@@ -303,7 +304,7 @@ export function Final({ m, review, update }: { m: Manifest; review: Review; upda
                 </div>
               )}
               <div className="actions">
-                <button onClick={commentSelection}>💬 Comment this element <kbd>C</kbd></button>
+                <button onClick={commentSelection}><Icon name="comment" size={14} />Comment this element <kbd>C</kbd></button>
               </div>
             </>
           )}
@@ -316,12 +317,12 @@ export function Final({ m, review, update }: { m: Manifest; review: Review; upda
 
         <div className="approve-box">
           {review.approved_round === m.round ? (
-            <div className="approved">✓ Video approved (round {m.round})
+            <div className="approved"><span><Icon name="check" size={15} /> Video approved (round {m.round})</span>
               <button className="link" onClick={() => update((r) => { delete r.approved_round; })}>undo</button></div>
           ) : (
             <button className="approve" disabled={openNow > 0} title={openNow ? "Some comments are still open" : ""}
               onClick={() => update((r) => { r.approved_round = m.round; })}>
-              ✓ Approve the video (round {m.round})
+              <Icon name="check" size={16} />Approve the video (round {m.round})
             </button>
           )}
         </div>

@@ -4,6 +4,7 @@ import { useStore } from "./api";
 import { Storyboard } from "./storyboard/Storyboard";
 import { Final } from "./final/Final";
 import { reviewToText } from "./text";
+import { Icon } from "./Icon";
 
 const STATUS: Record<string, string> = { in_review: "in review", changes_requested: "changes requested", approved: "approved" };
 
@@ -13,6 +14,11 @@ export function App() {
   const switchTo = (st: Stage) => { history.replaceState(null, "", `#${st}`); setWanted(st); };
   const [copied, setCopied] = useState(false);
   const [help, setHelp] = useState(false);
+
+  // dark by default (a video reads best on a dark surround); the light theme is the Motion Kit daylight room
+  const [theme, setTheme] = useState<"dark" | "light">(() => { try { return localStorage.getItem("theme") === "light" ? "light" : "dark"; } catch { return "dark"; } });
+  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
+  const flipTheme = () => { const next = theme === "dark" ? "light" : "dark"; setTheme(next); try { localStorage.setItem("theme", next); } catch { /* private window */ } };
 
   useEffect(() => {
     if (state?.manifest) document.title = `${state.manifest.project} · ${state.manifest.stage} · review`;
@@ -46,7 +52,7 @@ export function App() {
       <header className="top">
         <div className="brand">aisance<span>·</span>review</div>
         <div className="crumbs">
-          <b>{m.title || m.project}</b>
+          <b className="project">{m.title || m.project}</b>
           <div className="seg stage-switch" title="Switch between the storyboard and the final video">
             {(["storyboard", "final"] as Stage[]).map((st) => (
               <button key={st} className={m.stage === st ? "on" : ""} disabled={!stages.includes(st)}
@@ -57,13 +63,17 @@ export function App() {
               </button>
             ))}
           </div>
-          <span className="muted">round {m.round} · {m.canvas.w}×{m.canvas.h}{m.canvas.fps ? ` · ${m.canvas.fps} fps` : ""}</span>
+          <span className="meta">round {m.round} · {m.canvas.w}×{m.canvas.h}{m.canvas.fps ? ` · ${m.canvas.fps} fps` : ""}</span>
         </div>
         <div className="top-right">
           <span className={`status-chip ${stageStatus(m.stage)}`}>{STATUS[stageStatus(m.stage)]}</span>
-          <span className={`save ${saving}`}>{saving === "saving" ? "saving…" : saving === "error" ? "⚠︎ save failed" : "saved"}</span>
-          <button className="ghost small" onClick={copy}>{copied ? "Copied ✓" : "Copy as text"}</button>
-          <button className="ghost small" onClick={() => setHelp((h) => !h)}>?</button>
+          <span className={`save ${saving}`}>{saving === "saving" ? "saving…" : saving === "error" ? <><Icon name="warn" size={13} /> save failed</> : "saved"}</span>
+          <button className="ghost small" onClick={copy}><Icon name={copied ? "check" : "copy"} size={14} />{copied ? "Copied" : "Copy as text"}</button>
+          <button className="ghost small icon-only" onClick={() => setHelp((h) => !h)} title="Keyboard shortcuts" aria-label="Keyboard shortcuts"><Icon name="keyboard" /></button>
+          <button className="ghost small icon-only theme-toggle" onClick={flipTheme}
+            title={theme === "dark" ? "Thème clair" : "Thème sombre"} aria-label={theme === "dark" ? "Thème clair" : "Thème sombre"}>
+            <Icon name={theme === "dark" ? "sun" : "moon"} />
+          </button>
         </div>
       </header>
       {m.notes && <div className="notes">{m.notes}</div>}
@@ -79,7 +89,7 @@ function Help({ stage, onClose }: { stage: string; onClose: () => void }) {
   return (
     <div className="help" onClick={onClose}>
       <div className="help-card" onClick={(e) => e.stopPropagation()}>
-        <h3>Shortcuts</h3>
+        <div className="help-head"><h3>Shortcuts</h3><button className="ghost small icon-only" onClick={onClose} aria-label="Close"><Icon name="close" /></button></div>
         {stage === "storyboard" ? (
           <ul>
             <li><kbd>←</kbd>/<kbd>→</kbd> previous / next panel</li>

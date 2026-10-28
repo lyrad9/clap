@@ -7,6 +7,7 @@ import { loadImage, makeShot } from "../comments/shot";
 import { uploadShot } from "../api";
 import { FitBox } from "../FitBox";
 import { ClipPlayer } from "./ClipPlayer";
+import { Icon } from "../Icon";
 
 type Draft = { image?: number; point?: { x: number; y: number }; clipT?: number } | null;
 
@@ -114,7 +115,7 @@ export function Storyboard({ m, review, update }: { m: Manifest; review: Review;
       <div className="sb-grid-wrap">
         <div className="sb-toolbar">
           <span>{approved}/{panels.length} approved</span>
-          <button onClick={() => setGrid(false)}>Detail view (G)</button>
+          <button onClick={() => setGrid(false)}>Detail view <kbd>G</kbd></button>
         </div>
         {groups.map((g, gi) => (
           <div key={gi}>
@@ -135,7 +136,7 @@ export function Storyboard({ m, review, update }: { m: Manifest; review: Review;
                     </div>
                     <div className="sb-card-meta">
                       <b>{i + 1}. {p.title}</b>
-                      <span className={`pill ${st}`}>{STATE_LABEL[st]}{n ? ` · ${n}💬` : ""}</span>
+                      <span className={`pill ${st}`}>{STATE_LABEL[st]}</span>{n > 0 && <span className="count" title={`${n} open comment${n > 1 ? "s" : ""}`}><Icon name="comment" size={12} />{n}</span>}
                     </div>
                   </button>
                 );
@@ -151,8 +152,8 @@ export function Storyboard({ m, review, update }: { m: Manifest; review: Review;
     <div className={`sb ${portrait ? "portrait" : "landscape"}`}>
       <aside className="strip" ref={stripRef}>
         <div className="strip-head">{approved}/{panels.length} approved
-          <div className="progress"><div style={{ width: `${(100 * approved) / panels.length}%` }} /></div>
-          <button className="ghost small" onClick={() => setGrid(true)}>Grid (G)</button>
+          <div className="progress"><div style={{ transform: `scaleX(${approved / panels.length})` }} /></div>
+          <button className="ghost small" onClick={() => setGrid(true)}><Icon name="grid" size={13} />Grid <kbd>G</kbd></button>
         </div>
         {groups.map((g, gi) => (
           <div key={gi}>
@@ -165,7 +166,7 @@ export function Storyboard({ m, review, update }: { m: Manifest; review: Review;
                 <button key={p.id} className={`strip-item ${i === sel ? "sel" : ""} ${st} ${p.kind === "window" ? "window" : ""}`} onClick={() => go(i)}>
                   <span className={`dot ${st}`} />
                   {thumb && <img src={fileUrl(thumb.src)} loading="lazy" alt="" style={{ aspectRatio: `${m.canvas.w}/${m.canvas.h}` }} />}
-                  <span className="strip-label"><b>{i + 1}</b> {p.title}<small>{fmtTime(p.start)}{n ? ` · ${n} 💬` : ""}</small></span>
+                  <span className="strip-label"><span className="strip-title"><b>{i + 1}</b> {p.title}</span><small>{fmtTime(p.start)}{n > 0 && <span className="count"><Icon name="comment" size={11} />{n}</span>}</small></span>
                 </button>
               );
             })}
@@ -176,7 +177,7 @@ export function Storyboard({ m, review, update }: { m: Manifest; review: Review;
       <main className="sb-stage">
         {clipSrc && (
           <div className="seg view-switch">
-            <button className={view === "clip" ? "on" : ""} onClick={() => setView("clip")}>▶ Animation</button>
+            <button className={view === "clip" ? "on" : ""} onClick={() => setView("clip")}><Icon name="film" size={13} />Animation</button>
             <button className={view === "stills" ? "on" : ""} onClick={() => setView("stills")}>Stills</button>
           </div>
         )}
@@ -229,7 +230,7 @@ export function Storyboard({ m, review, update }: { m: Manifest; review: Review;
         </div>}
         <div className="sb-nav">
           <button onClick={() => go(sel - 1)} disabled={sel === 0}>← Previous</button>
-          <span>{sel + 1} / {panels.length}</span>
+          <span className="mono">{sel + 1} / {panels.length}</span>
           <button onClick={() => go(sel + 1)} disabled={sel === panels.length - 1}>Next →</button>
         </div>
       </main>
@@ -249,9 +250,9 @@ export function Storyboard({ m, review, update }: { m: Manifest; review: Review;
           {panel.excerpt && <blockquote>{panel.excerpt}</blockquote>}
           {panel.source && <div className="src mono">{panel.source.file}{panel.source.pointer ? ` #${panel.source.pointer}` : ""}</div>}
           <div className="actions">
-            <button className="approve" onClick={approve}>✓ Approve <kbd>A</kbd></button>
-            <button className="changes" onClick={() => setState(panel, "changes")}>✎ Needs changes <kbd>X</kbd></button>
-            <button onClick={() => setDraft({})}>💬 General comment <kbd>C</kbd></button>
+            <button className="approve" onClick={approve}><Icon name="check" size={14} />Approve <kbd>A</kbd></button>
+            <button className="changes" onClick={() => setState(panel, "changes")}><Icon name="pencil" size={14} />Needs changes <kbd>X</kbd></button>
+            <button onClick={() => setDraft({})}><Icon name="comment" size={14} />General comment <kbd>C</kbd></button>
           </div>
           {draft && draft.image == null && draft.point == null && (
             <Composer title={`${panel.title} · general`} onSubmit={addComment} onCancel={() => setDraft(null)} style={{ position: "static" }} />

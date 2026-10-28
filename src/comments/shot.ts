@@ -18,15 +18,15 @@ export async function makeShot({ source, srcW, srcH, point, outline, label, maxS
   try { g.drawImage(source, 0, 0, w, h); } catch { return null; }
   const u = Math.max(2, Math.round(w / 360));
   if (outline) {
-    g.strokeStyle = "#ff3b6b"; g.lineWidth = u * 1.5; g.setLineDash([u * 4, u * 2]);
+    g.strokeStyle = "#ff5a2c"; g.lineWidth = u * 1.5; g.setLineDash([u * 4, u * 2]);
     g.strokeRect(outline[0] * k, outline[1] * k, outline[2] * k, outline[3] * k);
     g.setLineDash([]);
   }
   if (point) {
     const x = point.x * w, y = point.y * h, r = u * 7;
     g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2);
-    g.fillStyle = "rgba(255,59,107,0.35)"; g.fill();
-    g.lineWidth = u * 1.2; g.strokeStyle = "#ff3b6b"; g.stroke();
+    g.fillStyle = "rgba(255,90,44,0.35)"; g.fill();
+    g.lineWidth = u * 1.2; g.strokeStyle = "#ff5a2c"; g.stroke();
     g.beginPath(); g.arc(x, y, u * 1.6, 0, Math.PI * 2); g.fillStyle = "#fff"; g.fill();
   }
   if (label) {
