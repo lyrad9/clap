@@ -21,7 +21,7 @@ export function App() {
   const flipTheme = () => { const next = theme === "dark" ? "light" : "dark"; setTheme(next); try { localStorage.setItem("theme", next); } catch { /* private window */ } };
 
   useEffect(() => {
-    if (state?.manifest) document.title = `${state.manifest.project} · ${state.manifest.stage} · review`;
+    if (state?.manifest) document.title = `${state.manifest.project} · ${state.manifest.stage} · Clap`;
   }, [state?.manifest]);
 
   if (error) return <div className="fatal">Server unreachable: {error}</div>;
@@ -50,7 +50,7 @@ export function App() {
   return (
     <div className="app">
       <header className="top">
-        <div className="brand">aisance<span>·</span>review</div>
+        <div className="brand"><ClapIcon />Clap</div>
         <div className="crumbs">
           <b className="project">{m.title || m.project}</b>
           <div className="seg stage-switch" title="Switch between the storyboard and the final video">
@@ -82,6 +82,17 @@ export function App() {
         ? <Storyboard key={`sb-${m.round}`} m={m} review={r} update={update} />
         : <Final key={`fi-${m.round}-${m.media?.video}`} m={m} review={r} update={update} />}
     </div>
+  );
+}
+
+/** A clapperboard, drawn in the accent colour. */
+function ClapIcon() {
+  return (
+    <svg className="brand-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <path d="M3 10h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="currentColor" opacity="0.9" />
+      <path d="M3.2 8.6 19.6 3.4l.9 2.9L4.1 11.5z" fill="currentColor" />
+      <path d="m7.4 7.3 2.2 2.6M11.9 5.9l2.2 2.6M16.4 4.5l2.2 2.6" stroke="var(--bar)" strokeWidth="1.6" />
+    </svg>
   );
 }
 

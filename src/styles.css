@@ -1,5 +1,5 @@
 /* ==========================================================================
-   La salle de relecture de Motion Kit.
+   Clap — la salle de relecture de Motion Kit.
    Même monde que la landing : encre chaude, papier, filets fins, un voyant
    d'enregistrement orange, les couleurs de pistes pour le sens, et des
    hachures de coupe autour de l'image. Sombre par défaut (une vidéo se juge
@@ -158,10 +158,10 @@ input:focus, textarea:focus { outline: none; border-color: var(--accent); }
   background: var(--bar); border-bottom: 1px solid var(--line);
 }
 .brand {
-  display: flex; align-items: center; flex: none;
+  display: flex; align-items: center; gap: 8px; flex: none;
   font: 600 17px/1 var(--display); letter-spacing: -0.035em;
 }
-.brand span { color: var(--accent); margin: 0 1px; }
+.brand-icon { color: var(--accent); }
 .crumbs { display: flex; gap: 12px; align-items: center; flex: 1; min-width: 0; padding-left: 14px; border-left: 1px solid var(--line); height: 24px; }
 .crumbs > b, .project { font: 600 14.5px/1.2 var(--display); letter-spacing: -0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .meta { font: 11.5px/1 var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }

@@ -1,6 +1,6 @@
-# aisance-video-editing
+# Clap
 
-A local review app for videos. It has two modes:
+A local review app for videos (formerly `aisance-video-editing`). It has two modes:
 1. **Storyboard**: approve each panel, pin comments on a precise point of a still, or of the panel's passage playing from a draft render of the whole video (an animatic).
 2. **Final**: play the render frame by frame and click any element (a card, one line inside a card, a caption word, a screen window). You can also click any block of the multi-track timeline (cuts, SFX, music) and comment it.
 
@@ -13,16 +13,16 @@ Works for vertical 9:16 reels and long 16:9 videos. The layout follows `canvas`,
 ## Install
 ```
 git clone https://github.com/JulienSnsnCode/aisance-video-editing && cd aisance-video-editing
-npm ci && npm run build && npm link     # puts `aisance-video-editing` on the PATH
+npm ci && npm run build && npm link     # puts `clap` (and the old name `aisance-video-editing`) on the PATH
 ```
 Requires Node 22+ and ffmpeg (waveforms).
 
 ## CLI
 ```
-aisance-video-editing open <projectDir> [--port N] [--no-open]   # serve <projectDir>, open the browser
-aisance-video-editing validate <projectDir>                      # check review/manifest.json (exit 1 on errors)
-aisance-video-editing status <projectDir>                        # {stage, round, status, open, panels} as JSON
-aisance-video-editing comments <projectDir> [--all]              # open comments as plain text
+clap open <projectDir> [--port N] [--no-open]   # serve <projectDir>, open the browser
+clap validate <projectDir>                      # check review/manifest.json (exit 1 on errors)
+clap status <projectDir>                        # {stage, round, status, open, panels} as JSON
+clap comments <projectDir> [--all]              # open comments as plain text
 ```
 The server listens on 127.0.0.1 only and serves `<projectDir>` read-only. Paths that leave the project are refused, and so are symlinks pointing outside it. The one exception is a media file the manifest names explicitly (a music track linked from another folder, say). The page reloads by itself when the manifest or review.json changes on disk.
 
@@ -106,7 +106,7 @@ The skill never touches `panels` or `approved_round`. The app keeps the comment 
 
 ## Develop
 ```
-aisance-video-editing open <dir> --port 4300 --no-open   # API + files
-npm run dev                                        # Vite on :5173, proxies to :4300
+clap open <dir> --port 4300 --no-open   # API + files
+npm run dev                              # Vite on :5173, proxies to :4300
 npm test && npm run typecheck
 ```

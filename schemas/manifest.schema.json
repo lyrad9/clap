@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "aisance-video-editing/manifest.schema.json",
-  "title": "aisance-video-editing manifest",
+  "$id": "clap/manifest.schema.json",
+  "title": "Clap manifest",
   "description": "Written by a skill into <project>/review/manifest.json. Paths are relative to the review/ folder.",
   "type": "object",
   "required": [

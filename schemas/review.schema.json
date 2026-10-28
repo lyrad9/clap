@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "aisance-video-editing/review.schema.json",
-  "title": "aisance-video-editing review state",
+  "$id": "clap/review.schema.json",
+  "title": "Clap review state",
   "description": "Written by the app into <project>/review/review.json. The skill reads it and writes back comment.status/resolution.",
   "type": "object",
   "required": [

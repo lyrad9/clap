@@ -1,9 +1,10 @@
 {
-  "name": "aisance-video-editing",
+  "name": "clap-review",
   "version": "0.1.0",
-  "description": "Local review tool for videos: storyboard approval and frame-precise component review, driven by a manifest.json written by any skill.",
+  "description": "Clap: a local review tool for videos. Storyboard approval and frame-precise component review, driven by a manifest.json written by any skill.",
   "type": "module",
   "bin": {
+    "clap": "bin/clap.mjs",
     "aisance-video-editing": "bin/aisance-video-editing.mjs"
   },
   "scripts": {
