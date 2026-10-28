@@ -1,3 +1,5 @@
+> **Ce dépôt est archivé.** Clap fait maintenant partie de [Motion Kit](https://github.com/lyrad9/motion-kit) : la version gratuite est dans `clap/`.
+
 # aisance-video-editing
 
 A local review app for videos. It has two modes:
